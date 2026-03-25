@@ -1,0 +1,15 @@
+# Virtual Environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Data folders
+data/raw/
+data/staging_1/
+data/staging_2/
+data/mart/
+
+# Database
+*.db
