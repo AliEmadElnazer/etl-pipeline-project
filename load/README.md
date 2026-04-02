@@ -62,11 +62,3 @@ This module builds the Data Warehouse dimensional model (Star Schema).
 
 
 
-\## Why Star Schema?
-
-\- الاستعلامات أسرع
-
-\- التصميم أبسط
-
-\- سهل الـ Reporting
-
