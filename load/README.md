@@ -1,64 +1,35 @@
-\# Data Model - Star Schema
+# Data Model - Star Schema
 
-
-
-\## Overview
-
+## Overview
 This module builds the Data Warehouse dimensional model (Star Schema).
 
+## ERD Diagram
+![Star Schema ERD](erd_star_schema_detailed.html)
 
+## Tables
 
-\## ERD Diagram
+### Fact Table
+**fact_sales** — contains all sales transactions
 
-!\[Star Schema ERD](erd\_star\_schema\_detailed.html)
+| Column         | Type  | Description                |
+|---------------|------|----------------------------|
+| order_id      | FK   | Order identifier           |
+| customer_id   | FK   | Customer identifier        |
+| product_id    | FK   | Product identifier         |
+| store_id      | FK   | Store identifier           |
+| date_id       | FK   | Date identifier            |
+| quantity      | int  | Quantity sold              |
+| list_price    | float| Product price              |
+| discount      | float| Discount applied           |
+| total_price   | float| Total transaction amount   |
 
+---
 
+### Dimension Tables
 
-\## Tables
-
-
-
-\### Fact Table
-
-\*\*fact\_sales\*\* — contains all sales transactions
-
-| Column | Type | Description |
-
-|--------|------|-------------|
-
-| order\_id | FK | رقم الطلب |
-
-| customer\_id | FK | رقم العميل |
-
-| product\_id | FK | رقم المنتج |
-
-| store\_id | FK | رقم الفرع |
-
-| date\_id | FK | رقم التاريخ |
-
-| quantity | int | الكمية |
-
-| list\_price | float | السعر |
-
-| discount | float | الخصم |
-
-| total\_price | float | الإجمالي |
-
-
-
-\### Dimension Tables
-
-| Table | Description |
-
-|-------|-------------|
-
-| dim\_customer | بيانات العملاء |
-
-| dim\_product | المنتجات + brands + categories |
-
-| dim\_store | الفروع + عدد الموظفين |
-
-| dim\_date | التواريخ بكل تفاصيلها |
-
-
-
+| Table         | Description                          |
+|--------------|--------------------------------------|
+| dim_customer | Stores customer data                 |
+| dim_product  | Stores product, brand, and category  |
+| dim_store    | Stores store information             |
+| dim_date     | Stores date attributes               |
