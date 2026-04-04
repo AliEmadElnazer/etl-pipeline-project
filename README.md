@@ -88,5 +88,5 @@ python3 visualization.py
 
 ## 👨‍💻 Author
 
-Ali Emad
-Omar eltawel
+* Ali Emad
+* Omar eltawel
