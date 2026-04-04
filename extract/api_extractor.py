@@ -23,7 +23,7 @@ class APIExtractor:
     def transform(self, data):
         rates = data["rates"]
         base = data["base"]
-
+        
         df = pd.DataFrame(list(rates.items()), columns=["currency", "rate"])
 
         df["base_currency"] = base

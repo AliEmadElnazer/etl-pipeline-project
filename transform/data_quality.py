@@ -51,4 +51,4 @@ class DataQuality:
             if file.endswith(".csv"):
                 self.process_file(file)
 
-        print("✅ Data Quality Done")
+        print("Data Quality Done")
