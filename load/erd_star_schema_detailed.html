@@ -1,0 +1,118 @@
+
+<style>
+#erd-wrap { padding: 1rem 0; }
+#erd svg { width: 100%; }
+.mermaid-label { font-family: var(--font-sans) !important; }
+</style>
+<div id="erd-wrap"><div id="erd"></div></div>
+<script type="module">
+import mermaid from 'https://esm.sh/mermaid@11/dist/mermaid.esm.min.mjs';
+const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+await document.fonts.ready;
+mermaid.initialize({
+  startOnLoad: false,
+  theme: 'base',
+  fontFamily: '"Anthropic Sans", sans-serif',
+  themeVariables: {
+    darkMode: dark,
+    fontSize: '13px',
+    fontFamily: '"Anthropic Sans", sans-serif',
+    lineColor: dark ? '#9c9a92' : '#73726c',
+    textColor: dark ? '#c2c0b6' : '#3d3d3a',
+    primaryColor: dark ? '#3C3489' : '#EEEDFE',
+    primaryTextColor: dark ? '#CECBF6' : '#3C3489',
+    primaryBorderColor: dark ? '#7F77DD' : '#534AB7',
+    secondaryColor: dark ? '#085041' : '#E1F5EE',
+    tertiaryColor: dark ? '#633806' : '#FAEEDA',
+  },
+});
+const diagram = `erDiagram
+  fact_sales {
+    int order_id FK
+    int order_item_id PK
+    int customer_id FK
+    int product_id FK
+    int store_id FK
+    int staff_id FK
+    int date_id FK
+    int quantity
+    float list_price
+    float discount
+    float total_price
+    string order_status
+  }
+
+  dim_customer {
+    int customer_id PK
+    string first_name
+    string last_name
+    string full_name
+    string email
+    string phone
+    string city
+    string state
+    string zip_code
+  }
+
+  dim_product {
+    int product_id PK
+    string product_name
+    int model_year
+    float list_price
+    string brand_name
+    string category_name
+  }
+
+  dim_store {
+    int store_id PK
+    string store_name
+    string city
+    string state
+    string phone
+    int staff_count
+  }
+
+  dim_date {
+    int date_id PK
+    date full_date
+    int day
+    int month
+    string month_name
+    int quarter
+    int year
+    string day_of_week
+    bool is_weekend
+  }
+
+  dim_customer ||--o{ fact_sales : "customer_id"
+  dim_product  ||--o{ fact_sales : "product_id"
+  dim_store    ||--o{ fact_sales : "store_id"
+  dim_date     ||--o{ fact_sales : "date_id"
+`;
+const { svg } = await mermaid.render('erd-svg', diagram);
+document.getElementById('erd').innerHTML = svg;
+
+document.querySelectorAll('#erd svg .node').forEach(node => {
+  const firstPath = node.querySelector('path[d]');
+  if (!firstPath) return;
+  const d = firstPath.getAttribute('d');
+  const nums = d.match(/-?[\d.]+/g)?.map(Number);
+  if (!nums || nums.length < 8) return;
+  const xs = [nums[0], nums[2], nums[4], nums[6]];
+  const ys = [nums[1], nums[3], nums[5], nums[7]];
+  const x = Math.min(...xs), y = Math.min(...ys);
+  const w = Math.max(...xs) - x, h = Math.max(...ys) - y;
+  const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+  rect.setAttribute('x', x); rect.setAttribute('y', y);
+  rect.setAttribute('width', w); rect.setAttribute('height', h);
+  rect.setAttribute('rx', '8');
+  for (const a of ['fill', 'stroke', 'stroke-width', 'class', 'style']) {
+    if (firstPath.hasAttribute(a)) rect.setAttribute(a, firstPath.getAttribute(a));
+  }
+  firstPath.replaceWith(rect);
+});
+
+document.querySelectorAll('#erd svg .row-rect-odd path, #erd svg .row-rect-even path').forEach(p => {
+  p.setAttribute('stroke', 'none');
+});
+</script>
